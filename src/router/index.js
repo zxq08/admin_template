@@ -156,6 +156,30 @@ export const asyncRoutes = [
   },
 
   {
+    path: '/permission',
+    component: Layout,
+    redirect: '/permission/page',
+    alwaysShow: true, // will always show the root menu
+    name: 'Permission',
+    meta: {
+      title: '权限',
+      icon: 'lock',
+      roles: ['admin'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'role',
+        component: () => import('@/views/permission/index'),
+        name: 'RolePermission',
+        meta: {
+          title: '角色权限',
+          roles: ['admin']
+        }
+      }
+    ]
+  },
+
+  {
     path: 'external-link',
     component: Layout,
     children: [
