@@ -185,7 +185,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { roles: ['admin'], title: '外链接', icon: 'link' }
+        meta: { roles: ['admin', 'editor'], title: '外链接', icon: 'link' }
       }
     ]
   },

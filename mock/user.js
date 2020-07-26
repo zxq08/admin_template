@@ -5,6 +5,9 @@ const tokens = {
   },
   editor: {
     token: 'editor-token'
+  },
+  visitor: {
+    token: 'visitor-token'
   }
 }
 
@@ -20,6 +23,12 @@ const users = {
     introduction: 'I am an editor',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Normal Editor'
+  },
+  'visitor-token': {
+    roles: ['visitor'],
+    introduction: 'I am an Visitor',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    name: 'Normal Visitor'
   }
 }
 
@@ -78,6 +87,31 @@ module.exports = [
       return {
         code: 20000,
         data: 'success'
+      }
+    }
+  },
+
+  // check user exist
+  {
+    url: '/vue-admin-template/user/isuser\.*',
+    type: 'get',
+    response: config => {
+      const username  = config.query
+      console.log(username[0])
+      const isuser = ['admin', 'editor', 'visitor'].indexOf(username[0]) >= 0
+
+      // mock error
+      if (!isuser) {
+        console.log({ "isuser": isuser})
+        return {
+          code: 60203,
+          message: ''
+        }
+      }
+
+      return {
+        code: 20000,
+        data: isuser
       }
     }
   }
