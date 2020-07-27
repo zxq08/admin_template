@@ -8,6 +8,9 @@ const tokens = {
   },
   visitor: {
     token: 'visitor-token'
+  },
+  zxq: {
+    token: 'zxq-token'
   }
 }
 
@@ -29,6 +32,12 @@ const users = {
     introduction: 'I am an Visitor',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Normal Visitor'
+  },
+  'zxq-token': {
+    roles: ['admin'],
+    introduction: 'I must be administrator',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    name: 'I am ZXQ'
   }
 }
 
@@ -97,21 +106,42 @@ module.exports = [
     type: 'get',
     response: config => {
       const username  = config.query
-      console.log(username[0])
-      const isuser = ['admin', 'editor', 'visitor'].indexOf(username[0]) >= 0
-
+      const isuser = ['admin', 'editor', 'visitor', 'zxq'].indexOf(username[0]) >= 0
       // mock error
       if (!isuser) {
-        console.log({ "isuser": isuser})
         return {
           code: 60203,
           message: ''
         }
       }
-
       return {
         code: 20000,
         data: isuser
+      }
+    }
+  },
+
+  // get all users
+  {
+    url: '/vue-admin-template/user/getAllUsers',
+    type: 'get',
+    response: config => {
+      let usersArr = []
+      for (var i in users) {
+        var name = i.split("-token")[0]
+        usersArr.push(
+          {
+            name,
+            roles: users[i].roles[0],
+            introduction: users[i].introduction,
+            avatar: users[i].avatar,
+            name: users[i].name
+          }
+        )
+      }
+      return {
+        code: 20000,
+        data: usersArr
       }
     }
   }
